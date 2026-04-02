@@ -1,5 +1,6 @@
 <?php
 use DevSphere\Controllers\OpenApiController;
+use DevSphere\Controllers\ViewController;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -11,4 +12,6 @@ return (function(App $app) {
 		});
 		$group->get("/swagger", [OpenApiController::class, "swagger"]);
 	});
+
+	$app->get("/", [ViewController::class, "displayHome"]);
 });
