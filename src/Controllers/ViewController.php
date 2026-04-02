@@ -14,4 +14,18 @@ class ViewController extends BaseController
             "title" => "Home"
         ]);
     }
+
+    function displayRegister(Request $req, Response $resp, Array $args) : Response
+    {
+        return $this->render("register.php", [
+            "title" => "S'enregister"
+        ]);
+    }
+
+    function displayLogin(Request $req, Response $resp, Array $args) : Response
+    {
+        return $this->render("login.php", [
+            "title" => "Se connecter"
+        ]);
+    }
 }
