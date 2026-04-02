@@ -1,5 +1,6 @@
 <?php
 use DevSphere\Controllers\OpenApiController;
+use DevSphere\Controllers\UserController;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -10,5 +11,8 @@ return (function(App $app) {
 			return $resp;
 		});
 		$group->get("/swagger", [OpenApiController::class, "swagger"]);
+		$group->group("/user", function(RouteCollectorProxy $group) {
+			$group->get("", [UserController::class, "getAll"]);
+		});
 	});
 });
