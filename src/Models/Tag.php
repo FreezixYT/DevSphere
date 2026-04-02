@@ -28,6 +28,21 @@ class Tag extends BaseModel {
             WHERE `UserTag`.`userId` = ?;";
         $sttmt = static::run($sql, [$id]);
         return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
+    }
 
+    /**
+     * Undocumented function
+     *
+     * @param integer $id
+     * @return Tag[]
+     */
+    public static function selectAllByProjectId(int $id): array {
+        $table = static::getTable();
+        $sql = static::getSelectQuery();
+        $sql .= "JOIN `UserTag` ON 
+            `UserTag`.`tagId` = $table.`id`
+            WHERE `UserTag`.`userId` = ?;";
+        $sttmt = static::run($sql, [$id]);
+        return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
 }
