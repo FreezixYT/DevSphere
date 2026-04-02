@@ -10,4 +10,9 @@ class ProjectController extends BaseController {
         $projects = Project::selectAll();
         return $this->sendJSON($projects);
     }
+    public function getById(Request $req, Response $resp, array $args) {
+        $id = (int)$args["id"];
+        $project = Project::selectById($id);
+        return $this->sendJSON($project);
+    }
 }

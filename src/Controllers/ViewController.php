@@ -14,4 +14,12 @@ class ViewController extends BaseController
             "title" => "Home"
         ]);
     }
+
+    function displayProject(Request $req, Response $resp, array $args) : Response
+    {
+        return $this->render("projectDetails.php", [
+            "title" => "Project - Details",
+            "projectId" => $args["id"]
+        ]);
+    }
 }

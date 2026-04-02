@@ -14,6 +14,7 @@ return function(App $app)
 		});
 		$group->group("/project", function(RouteCollectorProxy $group) {
 			$group->get("", [ProjectController::class, "getAll"]);
+			$group->get("/{id}", [ProjectController::class, "getById"]);
 		});
 	});
 };
