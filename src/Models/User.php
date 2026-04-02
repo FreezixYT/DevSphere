@@ -27,6 +27,10 @@ class User extends BaseModel {
     public array $tags {
         get => Tag::selectAllByUserId($this->id);
     }
+    #[DB\Column, DB\Block]
+    public array $roles {
+        get => Role::selectAllByUserId($this->id);
+    }
     
     public DateTime $createAt {
         get => DateTime::createFromFormat("Y-m-d H:i:s", $this->_createdAt);

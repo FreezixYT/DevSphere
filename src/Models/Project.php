@@ -19,6 +19,10 @@ class Project extends BaseModel {
     public array $tags { 
         get => Tag::selectAllByProjectId($this->id);
     }
+    #[DB\Column, DB\Block]
+    public array $roles {
+        get => Role::selectAllByProjectId($this->id);
+    }
 
     public static function selectById(int $id) {
         return static::selectBy("id", $id);
