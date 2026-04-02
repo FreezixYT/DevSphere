@@ -22,4 +22,25 @@ class ViewController extends BaseController
             "projectId" => $args["id"]
         ]);
     }
+    
+    function displayRegister(Request $req, Response $resp, Array $args) : Response
+    {
+        return $this->render("register.php", [
+            "title" => "Register"
+        ]);
+    }
+
+    function displayLogin(Request $req, Response $resp, Array $args) : Response
+    {
+        return $this->render("login.php", [
+            "title" => "Login"
+        ]);
+    }
+
+    function displayProfil(Request $req, Response $resp, Array $args) : Response
+    {
+        return $this->render("profil.php", [
+            "title" => "Profil"
+        ]);
+    }
 }
