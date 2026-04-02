@@ -23,6 +23,7 @@ class User extends BaseModel {
     private string $_type;
     #[DB\Column("createdAt")]
     private string $_createdAt;
+
     #[DB\Column, DB\Block]
     public array $tags {
         get => Tag::selectAllByUserId($this->id);
@@ -48,5 +49,15 @@ class User extends BaseModel {
                 $value = $value->value;
             $this->_type = $value;
         }
+    }
+    
+    public static function selectAllByRoleId(int $id) {
+        $table = static::getTable();
+        $sql = static::getSelectQuery();
+        $sql .= "JOIN `UserRole` ON 
+            `UserRole`.`roleId` = $table.`id`
+            WHERE `UserRole`.`roleId` = ?;";
+        $sttmt = static::run($sql, [$id]);
+        return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
 }
