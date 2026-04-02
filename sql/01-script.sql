@@ -58,11 +58,19 @@ CREATE TABLE `Role`(
     `name` VARCHAR(30) NOT NULL,
     `description` VARCHAR(150) NOT NULL,
     `projectId` INT UNSIGNED NOT NULL,
-    `userId` INT UNSIGNED,
     CONSTRAINT fk_role_project
         FOREIGN KEY (`projectId`) REFERENCES `Project`(id)
+        ON DELETE CASCADE ON UPDATE RESTRICT
+);
+
+CREATE TABLE `UserRole`(
+    `roleId` INT UNSIGNED NOT NULL,
+    `userId` INT UNSIGNED NOT NULL,
+    PRIMARY KEY(`roleId`,`userId`),
+    CONSTRAINT fk_roleuser_role
+        FOREIGN KEY (`roleId`) REFERENCES `Role`(id)
         ON DELETE CASCADE ON UPDATE RESTRICT,
-    CONSTRAINT fk_role_user
+    CONSTRAINT fk_roleuser_user
         FOREIGN KEY (`userId`) REFERENCES `User`(id)
         ON DELETE CASCADE ON UPDATE RESTRICT
 );

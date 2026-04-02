@@ -30,6 +30,7 @@ VALUES
 ('UI/UX'),
 ('Machine Learning');
 
+
 INSERT INTO `UserTag` (`userId`, `tagId`)
 VALUES
 (1, 4), -- Alice: React
@@ -42,6 +43,7 @@ VALUES
 (4, 1), -- Diana: JavaScript
 (5, 8); -- Ethan: Machine Learning
 
+
 INSERT INTO `Project` (`name`, `description`, `userId`)
 VALUES
 ('TaskFlow', 'A task management app for teams.', 1),
@@ -49,13 +51,24 @@ VALUES
 ('DevMatch', 'A platform to match developers to open-source projects.', 3),
 ('FitBuddy', 'AI-powered fitness assistant.', 5);
 
-INSERT INTO `Role` (`id`, `name`, `description`, `projectId`, `userId`)
+
+-- NEW: Role table without userId
+INSERT INTO `Role` (`id`, `name`, `description`, `projectId`)
 VALUES
-(1, 'Frontend Developer', 'Build UI components in React.', 1, NULL),
-(2, 'Backend Developer', 'Implement API and database logic.', 1, 2),
-(3, 'Data Scientist', 'Develop ML models for recommendations.', 2, NULL),
-(4, 'DevOps Engineer', 'Manage CI/CD pipelines.', 3, NULL),
-(5, 'Mobile Developer', 'Create mobile interface for the app.', 4, NULL);
+(1, 'Frontend Developer', 'Build UI components in React.', 1),
+(2, 'Backend Developer', 'Implement API and database logic.', 1),
+(3, 'Data Scientist', 'Develop ML models for recommendations.', 2),
+(4, 'DevOps Engineer', 'Manage CI/CD pipelines.', 3),
+(5, 'Mobile Developer', 'Create mobile interface for the app.', 4);
+
+
+-- NEW: UserRole join table (replacing Role.userId)
+-- From your original data:
+-- Role 2 had userId = 2 (Bob)
+INSERT INTO `UserRole` (`userId`, `roleId`)
+VALUES
+(2, 2); -- Bob is Backend Developer
+
 
 INSERT INTO `RoleTag` (`roleId`, `tagId`)
 VALUES
@@ -75,7 +88,7 @@ VALUES
 
 -- Role 4: DevOps Engineer
 (4, 6),  -- DevOps
-(4, 5),  -- SQL (for CI/CD DB tasks)
+(4, 5),  -- SQL
 
 -- Role 5: Mobile Developer (UI + JS)
 (5, 1),  -- JavaScript
