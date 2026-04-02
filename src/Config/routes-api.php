@@ -1,11 +1,11 @@
 <?php
-use DevSphere\Controllers\OpenApiController;
-use DevSphere\Controllers\ViewController;
-use DevSphere\Controllers\UserController;
 use Slim\App;
+use DevSphere\Controllers\OpenApiController;
+use DevSphere\Controllers\UserController;
 use Slim\Routing\RouteCollectorProxy;
 
-return (function(App $app) {
+return function(App $app) 
+{
 	$app->group("/api", function(RouteCollectorProxy $group) {
 		$group->get("", function ($req, $resp) {
 			echo "Hello world";
@@ -16,6 +16,4 @@ return (function(App $app) {
 			$group->get("", [UserController::class, "getAll"]);
 		});
 	});
-
-	$app->get("/", [ViewController::class, "displayHome"]);
-});
+};

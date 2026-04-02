@@ -27,6 +27,8 @@ $container->set(PhpRenderer::class, function (ContainerInterface $container) {
 $app = AppFactory::createFromContainer($container);
 //$app->addErrorMiddleware(true, false, false);
 
-(require_once __DIR__."/../src/Config/routes.php")($app);
+//routes api
+(require_once __DIR__."/../src/Config/routes-web.php")($app);
+(require_once __DIR__."/../src/Config/routes-api.php")($app);
 
 $app->run();
