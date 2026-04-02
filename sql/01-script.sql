@@ -91,7 +91,7 @@ CREATE TABLE `Request`(
     `roleId` INT UNSIGNED NOT NULL,
     `userId` INT UNSIGNED NOT NULL,
     `message` VARCHAR(150) NOT NULL,
-    `status` ENUM('Pending','Accepted','Declined') NOT NULL,
+    `status` ENUM('Pending','Accepted','Declined') NOT NULL DEFAULT 'Pending',
     `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT fk_request_role
         FOREIGN KEY (`roleId`) REFERENCES `Role`(id)
