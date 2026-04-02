@@ -9,4 +9,5 @@ return function(App $app)
 	$app->get("/", [ViewController::class, "displayHome"]);
 	$app->get("/login", [ViewController::class, "displayLogin"]);
 	$app->get("/register", [ViewController::class, "displayRegister"]);
+	$app->get("/profil", [ViewController::class, "displayProfil"]);
 };

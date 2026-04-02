@@ -18,14 +18,21 @@ class ViewController extends BaseController
     function displayRegister(Request $req, Response $resp, Array $args) : Response
     {
         return $this->render("register.php", [
-            "title" => "S'enregister"
+            "title" => "Register"
         ]);
     }
 
     function displayLogin(Request $req, Response $resp, Array $args) : Response
     {
         return $this->render("login.php", [
-            "title" => "Se connecter"
+            "title" => "Login"
+        ]);
+    }
+
+    function displayProfil(Request $req, Response $resp, Array $args) : Response
+    {
+        return $this->render("profil.php", [
+            "title" => "Profil"
         ]);
     }
 }
