@@ -37,7 +37,7 @@
       restart: unless-stopped
 
     swagger:
-      image: docker.swagger.io/swaggerapi/swagger-ui
+      image: swaggerapi/swagger-ui
       networks:
         - app-network
       environment:
