@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 
-<body>
-    <div class="navbar bg-base-100 shadow-sm">
+<body class="flex flex-col h-screen">
+    <nav class="navbar bg-base-100 shadow-sm">
         <div class="flex-1">
             <a class="btn btn-ghost text-xl">Sphere dev</a>
         </div>
@@ -33,10 +33,8 @@
                 </div>
             </ul>
         </div>
-
-
-    </div>
-    <main class="min-h-screen">
+    </nav>
+    <main class="flex-1">
         <?= $content ?>
     </main>
 
