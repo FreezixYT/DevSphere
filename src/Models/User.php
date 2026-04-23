@@ -51,6 +51,13 @@ class User extends BaseModel {
         }
     }
     
+    public static function createUser($data)
+    {
+        $table = static::getTable();
+        //$sql = static::getInsertQuery();
+        $sql = "INSERT INTO $table "
+    }
+
     public static function selectAllByRoleId(int $id) {
         $table = static::getTable();
         $sql = static::getSelectQuery();
