@@ -3,6 +3,8 @@ namespace DevSphere\Models;
 
 use DateTime;
 use DevSphere\Enums\UserType;
+use DevSphere\Schemas\LoginSchema;
+use DevSphere\Schemas\RegisterSchema;
 use PHPUtils\BaseModel;
 use PHPUtils\Attributes\DB;
 
@@ -19,9 +21,9 @@ class User extends BaseModel {
     public string $email;
     #[DB\Column, DB\Hidden]
     public string $password;
-    #[DB\Column("type")]
+    #[DB\Column("type"), DB\Block(DB\Block::INSERT)]
     private string $_type;
-    #[DB\Column("createdAt")]
+    #[DB\Column("createdAt"), DB\Block(DB\Block::INSERT)]
     private string $_createdAt;
 
     #[DB\Column, DB\Block]
@@ -51,11 +53,23 @@ class User extends BaseModel {
         }
     }
     
-    public static function createUser($data)
+    public static function createUser(RegisterSchema $data)
     {
         $table = static::getTable();
-        //$sql = static::getInsertQuery();
-        $sql = "INSERT INTO $table "
+        $sql = static::getInsertQuery();
+        $params = [$data->firstname, $data->lastname, $data->pseudo, $data->email, password_hash($data->password, PASSWORD_BCRYPT)];
+        $sttmt = static::run($sql, $params);
+        return static::getDB()->lastInsertId();
+    }
+
+    public static function getUser(int $id)
+    {
+        return static::selectBy("id", $id);
+    }
+
+    public static function deleteUser($id)
+    {
+        return static::deleteBy("id", $id);
     }
 
     public static function selectAllByRoleId(int $id) {

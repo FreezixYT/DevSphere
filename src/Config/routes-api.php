@@ -16,6 +16,9 @@ return function(App $app)
 			$group->get("", [ProjectController::class, "getAll"]);
 			$group->get("/{id}", [ProjectController::class, "getById"]);
 		});
+		$group->group("/user", function(RouteCollectorProxy $group) {
+			$group->post("/register", [UserController::class, "register"]);
+		});
 	});
 };
 
