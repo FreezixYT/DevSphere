@@ -40,8 +40,14 @@ class UserController extends BaseController {
         $data = $this->getBody($req);
         $schema = new RegisterSchema($data);
         $result = $schema->validate();
+
         if ($result === true)
         {
+            $status = User::checkEmail($schema);
+            if ($status)
+            {
+                return $this->sendJSON(["mailError" => "Cette email est deja utiliser"]);
+            }
             
             $id = User::createUser($schema);
             $user = User::getUser($id);

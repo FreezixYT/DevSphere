@@ -62,6 +62,15 @@ class User extends BaseModel {
         return static::getDB()->lastInsertId();
     }
 
+    public static function checkEmail(RegisterSchema $data)
+    {
+        $sql = "SELECT email FROM User WHERE email = :email";
+        $params = ['email' => $data->email];
+        $stmt = static::run($sql, $params);
+    
+        return $stmt->rowCount() > 0;
+    }
+
     public static function getUser(int $id)
     {
         return static::selectBy("id", $id);
