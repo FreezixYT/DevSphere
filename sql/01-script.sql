@@ -5,12 +5,12 @@ USE `DevSphere`;
 
 CREATE TABLE `User`(
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `name` VARCHAR(100) UNIQUE NOT NULL,
+    `name` VARCHAR(100) NOT NULL,
     `lastname` VARCHAR(100) NOT NULL,
-    `username` VARCHAR(20) UNIQUE NOT NULL,
+    `username` VARCHAR(20) NOT NULL,
     `email` VARCHAR(255) UNIQUE NOT NULL,
     `password` VARCHAR(255) NOT NULL,
-    `type` ENUM('Member', 'Admin') NOT NULL,
+    `type` ENUM('Member', 'Admin') NOT NULL DEFAULT 'Member',
     `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 

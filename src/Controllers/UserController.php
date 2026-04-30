@@ -5,6 +5,7 @@ use DateInterval;
 use DateTime;
 use DevSphere\Models\User;
 use DevSphere\Schemas\LoginSchema;
+use DevSphere\Schemas\RegisterSchema;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -25,7 +26,8 @@ class UserController extends BaseController {
         $result = $schema->validate();
         if($result === true)
         {
-            //crée user
+            $user = new User();
+            static::generateJWT($user);
         }
         else
         {
@@ -33,6 +35,24 @@ class UserController extends BaseController {
         }
     }
 
+    public function register($req, $resp)
+    {
+        $data = $this->getBody($req);
+        $schema = new RegisterSchema($data);
+        $result = $schema->validate();
+        if ($result === true)
+        {
+            
+            $id = User::createUser($schema);
+            $user = User::getUser($id);
+            $jwt = $this->generateJWT($user);
+            return $this->sendJSON(["jwt" => $jwt]);
+        }
+        else
+        {
+            return $this->sendErrors($result);
+        }
+    }
     private function generateJWT(User $user) {
         $key = $_ENV["JWT_KEY"] ?? 'FYCFg6JaPmRpicpoWsWovyvm0oN7jh4McCRtEMBxXxr';
         $today = new DateTime();
