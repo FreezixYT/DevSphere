@@ -1,3 +1,7 @@
+<?php
+use DevSphere\Models\Project;
+/** @var Project[] $projects */
+?>
 <div class="flex justify-center mt-30 items-center">
     <div>
         <h1 class="text-5xl">Sphere Dev</h1>
@@ -14,37 +18,21 @@
         </form>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
-            <div class="card card-border card-xs shadow-sm w-full max-w-sm">
-                <div class="card-body">
-                    <h2 class="card-title">Application web</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    <div class="flex gap-2">
-                        <div class="badge badge-primary">Html</div>
-                        <div class="badge badge-primary">Css</div>
-                        <div class="badge badge-primary">Js</div>
+            <? foreach($projects as $project): ?>
+                <a href="/project/<?= $project->id ?>" class="card card-border card-xs shadow-sm w-full max-w-sm">
+                    <div class="card-body">
+                        <h2 class="card-title"><?= $project->name ?></h2>
+                        <p><?= $project->description ?></p>
+                        <div class="flex gap-2">
+                            <? foreach ($project->tags as $i => $tag) :?>
+                                <div class="badge badge-<?= $i % 3 == 0 ? "accent" : ($i % 2 == 0 ? "secondary" : "primary")  ?>">
+                                    <?= $tag->name ?>
+                                </div>
+                            <? endforeach ?>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="card card-border card-xs shadow-sm w-full max-w-sm">
-                <div class="card-body">
-                    <h2 class="card-title">Application C#</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    <div class="flex gap-2">
-                        <div class="badge badge-primary">.Net</div>
-                        <div class="badge badge-primary">C#</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card card-border card-xs shadow-sm w-full max-w-sm">
-                <div class="card-body">
-                    <h2 class="card-title">Jeux vidéo</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    <div class="flex gap-2">
-                        <div class="badge badge-primary">Unity</div>
-                        <div class="badge badge-primary">C#</div>
-                    </div>
-                </div>
-            </div>
+                </a>
+            <? endforeach ?>
         </div>
     </div>
 </div>

@@ -7,7 +7,7 @@ use DevSphere\Controllers\UserController;
 
 return function(App $app) 
 {
-	$app->get("/", [ViewController::class, "displayHome"]);
+	$app->get("/", [ProjectController::class, "showHome"]);
 	$app->get("/project/{id}", [ProjectController::class, "showDetails"]);
 	$app->get("/login", [ViewController::class, "displayLogin"]);
 	$app->get("/register", [ViewController::class, "displayRegister"]);
