@@ -3,6 +3,7 @@ use Slim\App;
 use DevSphere\Controllers\OpenApiController;
 use DevSphere\Controllers\UserController;
 use DevSphere\Controllers\ProjectController;
+use DevSphere\Controllers\RoleController;
 use Slim\Routing\RouteCollectorProxy;
 
 return function(App $app) 
@@ -15,6 +16,10 @@ return function(App $app)
 		$group->group("/project", function(RouteCollectorProxy $group) {
 			$group->get("", [ProjectController::class, "getAll"]);
 			$group->get("/{id}", [ProjectController::class, "getById"]);
+		});
+		$group->group("/role", function(RouteCollectorProxy $group) {
+			$group->get("/{id}", [RoleController::class, "getById"]);
+			$group->post("/request/{id}", [RoleController::class, "request"]);
 		});
 		$group->group("/user", function(RouteCollectorProxy $group) {
 			$group->post("/register", [UserController::class, "register"]);

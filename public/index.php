@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\Factory\AppFactory;
 use Slim\Psr7\Factory\ResponseFactory;
 use Slim\Views\PhpRenderer;
+session_start();
 
 // Create Container using PHP-DI
 $container = new Container();

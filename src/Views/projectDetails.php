@@ -27,7 +27,7 @@ $owner = $project->owner;
                     <div class="flex justify-between items-center">
                         <? $users = $role->users ?>
                         <span><?= $role->name ?> ( x<?= count($users) ?> )</span>
-                        <button class="btn btn-primary z-1">Request</button>
+                        <button class="btn btn-primary z-1" onclick="showRoleRequestModal(<?= $role->id ?>)">Request</button>
                     </div>
                     <ul>
                         <? foreach ($role->tags as $i => $tag): ?>
@@ -55,4 +55,42 @@ $owner = $project->owner;
         <? endforeach ?>
         <div class="w-150 max-w-full m-2"></div>
     </div>
+    <dialog id="role-request-modal" class="modal modal-bottom sm:modal-middle" open>
+        <div class="modal-box">
+            <h3 class="text-lg font-bold mb-4">Send the request for the role of Software Dev</h3>
+            <form onsubmit="sendRequest">
+                <textarea class="textarea textarea-primary w-full h-30" name="message"></textarea>
+                <button type="submit" class="btn btn-primary w-full mt-4">
+                    Submit
+                </button>
+            </form>
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost btn-error absolute right-2 top-2">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </form>
+        </div>
+    </dialog>
 </div>
+
+<script>
+    /** @type {HTMLDialogElement} */
+    const roleRequestModal = document.querySelector("#role-request-modal");
+    const token = localStorage.getItem("token");
+
+    async function showRoleRequestModal(id) {
+        roleRequestModal.showModal();
+        const result = await fetch(`/api/role/request/${id}`, {
+            headers: {
+                authorize: `Bearer ${token}`
+            },
+            method: "POST"
+        });
+        console.log(await result.text());
+    }
+
+    /** @param {SubmitEvent} e */
+    async function sendRequest(e) {
+        e.preventDefault();
+    }
+</script>

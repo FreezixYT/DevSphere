@@ -2,7 +2,8 @@
 namespace DevSphere\Models;
 
 use PHPUtils\BaseModel;
-use PHPUtils\Attributes\DB; 
+use PHPUtils\Attributes\DB;
+use PHPUtils\Attributes\DB\Hidden;
 
 class Role extends BaseModel {
     #[DB\Column, DB\Block(DB\Block::INSERT, DB\Block::UPDATE)]
@@ -14,7 +15,7 @@ class Role extends BaseModel {
     #[DB\Column, DB\Block(DB\Block::UPDATE)]
     public int $projectId;
     /** @var User[] */
-    #[DB\Column, DB\Block]
+    #[DB\Column, DB\Block, Hidden]
     public array $users {
         get => User::selectAllByRoleId($this->id);
     }
@@ -25,7 +26,7 @@ class Role extends BaseModel {
     }
 
     public static function selectById(int $id) {
-        return parent::selectBy("", $id);
+        return static::selectBy("id", $id);
     }
 
     /**

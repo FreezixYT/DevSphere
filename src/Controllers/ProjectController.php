@@ -2,6 +2,7 @@
 namespace DevSphere\Controllers;
 
 use DevSphere\Models\Project;
+use DevSphere\Models\Role;
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
