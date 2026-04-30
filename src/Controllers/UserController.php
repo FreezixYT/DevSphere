@@ -24,10 +24,24 @@ class UserController extends BaseController {
         $data = $this->getBody($req);
         $schema = new LoginSchema($data);
         $result = $schema->validate();
-        if($result === true)
+    
+        if ($result === true)
         {
-            $user = new User();
-            static::generateJWT($user);
+            $user = User::findByEmail($schema->email);
+        
+            if (!$user) {
+                return $this->sendJSON(["error" => "Utilisateur introuvable"]);
+            }
+        
+            if (password_verify($schema->password, $user->password))
+            {
+                $jwt = $this->generateJWT($user);
+                return $this->sendJSON(["jwt" => $jwt]);
+            }
+            else
+            {
+                return $this->sendJSON(["error" => "Mot de pass incorecte"]);
+            }
         }
         else
         {
