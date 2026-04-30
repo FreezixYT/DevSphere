@@ -1,5 +1,5 @@
 <?php
-namespace Slim\Middleware;
+namespace DevSphere\Middlewares;
 
 use DevSphere\Enums\HTTPStatus;
 use DevSphere\Models\User;
@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
-class AuthMiddleware implements MiddlewareInterface
+class APIAuth implements MiddlewareInterface
 {
     public function __construct(private ResponseFactoryInterface $respFact)
     { }

@@ -36,6 +36,7 @@ class UserController extends BaseController {
             if (password_verify($schema->password, $user->password))
             {
                 $jwt = $this->generateJWT($user);
+                $_SESSION["JWT"] = $jwt;
                 return $this->sendJSON(["jwt" => $jwt]);
             }
             else
