@@ -12,17 +12,26 @@ class Project extends BaseModel {
     public string $name;
     #[DB\Column]
     public string $description;
-    #[DB\Column, DB\Block(DB\Block::UPDATE)]
+    #[DB\Column, DB\Block(DB\Block::UPDATE), DB\Hidden]
     public int $userId;
 
+    #[DB\Column, DB\Block]
+    public User $owner {
+        get => User::selectById($this->userId);
+        set => $this->userId = $value->id;
+    }
+
+    /** @var Tag[] */
     #[DB\Column, DB\Block]
     public array $tags { 
         get => Tag::selectAllByProjectId($this->id);
     }
+    /** @var Role[] */
     #[DB\Column, DB\Block]
     public array $roles {
         get => Role::selectAllByProjectId($this->id);
     }
+
 
     public static function selectById(int $id) {
         return static::selectBy("id", $id);

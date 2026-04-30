@@ -90,4 +90,8 @@ class User extends BaseModel {
         $sttmt = static::run($sql, [$id]);
         return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
+
+    public static function selectById(int $id) {
+        return static::selectBy("id", $id);
+    }
 }

@@ -13,6 +13,16 @@ class Role extends BaseModel {
     public string $description;
     #[DB\Column, DB\Block(DB\Block::UPDATE)]
     public int $projectId;
+    /** @var User[] */
+    #[DB\Column, DB\Block]
+    public array $users {
+        get => User::selectAllByRoleId($this->id);
+    }
+     /** @var Tag[] */
+    #[DB\Column, DB\Block]
+    public array $tags { 
+        get => Tag::selectAllByRoleId($this->id);
+    }
 
     public static function selectById(int $id) {
         return parent::selectBy("", $id);
