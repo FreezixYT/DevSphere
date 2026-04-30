@@ -41,4 +41,17 @@ class Tag extends BaseModel {
         $sttmt = static::run($sql, [$id]);
         return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
+    /**
+     * @param integer $id
+     * @return Tag[]
+     */
+    public static function selectAllByRoleId(int $id): array {
+        $table = static::getTable();
+        $sql = static::getSelectQuery();
+        $sql .= "JOIN `RoleTag` ON 
+            `RoleTag`.`tagId` = $table.`id`
+            WHERE `RoleTag`.`roleId` = ?;";
+        $sttmt = static::run($sql, [$id]);
+        return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
+    }
 }

@@ -69,7 +69,7 @@ abstract class BaseController {
 		return $this->sendJSON(["errors" => $errors], $status);
 	}
 
-	protected function render(string $page, array $data): Response {
+	protected function render(string $page, array $data = []): Response {
 		$resp = $this->respFact->createResponse();
 		return $this->renderer->render($resp, $page, $data);
 	}
