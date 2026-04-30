@@ -10,8 +10,8 @@ use PHPUtils\BaseSchema;
 
 class LoginSchema extends BaseSchema {
 
-    #[Property, VA\Filter(FILTER_SANITIZE_FULL_SPECIAL_CHARS), VA\Max(20)]
-    public string $username;
+    #[Property, VA\Filter(FILTER_SANITIZE_FULL_SPECIAL_CHARS), VA\Max(255)]
+    public string $email;
 
     #[Property, VA\Filter(FILTER_SANITIZE_FULL_SPECIAL_CHARS), VA\Max(255)]
     public string $password;

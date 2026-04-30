@@ -18,6 +18,7 @@ return function(App $app)
 		});
 		$group->group("/user", function(RouteCollectorProxy $group) {
 			$group->post("/register", [UserController::class, "register"]);
+			$group->post("/login", [UserController::class, "login"]);
 		});
 	});
 };
