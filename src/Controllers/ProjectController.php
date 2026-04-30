@@ -22,4 +22,9 @@ class ProjectController extends BaseController {
         $project = Project::selectById($id);
         return $this->render("projectDetails.php", ["project" => $project]);
     }
+
+    public function showHome(Request $req, Response $resp, array $args) {
+        $projects = Project::selectAll();
+        return $this->render("home.php", ["projects" => $projects]);
+    }
 }
