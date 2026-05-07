@@ -1,10 +1,14 @@
 
 <?php  
 use DevSphere\Models\Project;
+use DevSphere\Models\User;
 /** @var Project $project */ 
 $owner = $project->owner;
 
-$connected = isset($_SESSION["user"]);
+/** @var User|null $user */
+$user = $_SESSION["user"] ?? null;
+
+$connected = $user !== null;
 
 ?>
 <div class="flex flex-col w-8/10 m-auto h-full">
@@ -41,12 +45,14 @@ $connected = isset($_SESSION["user"]);
                 </div>
                 <div class="collapse-content text-sm">
                     <? if ($connected): ?>
+                        <? if (!$user->hasRequestedRole($role->id)): ?>
                         <form method="post" action="/role/<?= $role->id ?>/request" class="mb-4">
                             <textarea class="textarea textarea-primary w-full h-30" name="message" placeholder="Message..." ></textarea>
                             <button type="submit" class="btn btn-primary w-full mt-4">
                                 Request
                             </button>
                         </form>
+                        <? endif ?>
                     <? endif ?>
                     <ul>
                         <? foreach ($users as $user): ?>

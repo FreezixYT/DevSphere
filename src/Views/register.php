@@ -1,9 +1,13 @@
+<?php 
+/** @var string[] $errors */
+?>
+
 <div class="min-h-screen bg-base-200 flex items-center justify-center">
   <div class="card w-full max-w-sm shadow-2xl bg-base-100">
     <div class="card-body">
       <h2 class="card-title justify-center text-2xl">Register</h2>
 
-      <form id="form">
+      <form method="post" action="/register">
         <div class="form-control m-4">
           <label class="label">
             <span class="label-text">Firstname</span>
@@ -44,7 +48,13 @@
         </div>
       </form>
 
-      <div id="errorZone"></div>
+      <div id="errorZone">
+        <? foreach ($errors as $error): ?>
+          <div role="alert" class="alert alert-error">
+            <span><?= $error ?></span>
+          </div>
+        <? endforeach ?>
+      </div>
 
       <p class="text-center text-sm mt-4">
         Already have an account ? -
@@ -53,75 +63,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  const form = document.getElementById("form");
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(form);
-    const data = {};
-    const errorZone = document.getElementById("errorZone");
-
-    for (const [key, value] of formData.entries()) {
-      data[key] = value;
-    }
-
-    errorZone.innerHTML = "";
-
-    try {
-      const response = await fetch("/api/user/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
-
-      const body = await response.json();
-
-      if (body.mailError) {
-        errorZone.innerHTML = `
-          <div role="alert" class="alert alert-error">
-            <span>${body.mailError}</span>
-          </div>
-        `;
-      }
-
-      if (body.jwt) {
-        errorZone.innerHTML = `
-          <div role="alert" class="alert alert-success">
-            <span>Création de compte réussie !</span>
-          </div>
-        `;
-
-        localStorage.setItem("token", body.jwt);
-
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1000);
-      }
-
-      if (body.errors && Array.isArray(body.errors)) {
-        body.errors.forEach(err => {
-          const wrapper = document.createElement("div");
-          wrapper.innerHTML = `
-            <div role="alert" class="alert alert-warning">
-              <span>${err}</span>
-            </div>
-          `;
-          errorZone.appendChild(wrapper.firstElementChild);
-        });
-      }
-
-    } catch (error) {
-      errorZone.innerHTML = `
-        <div role="alert" class="alert alert-error">
-          <span>Erreur serveur</span>
-        </div>
-      `;
-      console.error(error);
-    }
-  });
-</script>

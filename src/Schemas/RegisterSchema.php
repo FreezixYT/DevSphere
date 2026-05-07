@@ -1,8 +1,6 @@
 <?php
 namespace DevSphere\Schemas;
 
-use PHPUtils\BaseModel;
-use PHPUtils\Attributes\DB;
 use PHPUtils\Attributes\Validators as VA;
 use PHPUtils\Attributes\Property;
 

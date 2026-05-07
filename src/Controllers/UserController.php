@@ -7,10 +7,31 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use DevSphere\Models\User;
 use DevSphere\Schemas\LoginSchema;
 use DevSphere\Schemas\RegisterSchema;
-
-
+use UnexpectedValueException;
 
 class UserController extends BaseController {
+    
+    function showLogin(Request $req, Response $resp) : Response {
+        return $this->render("login.php", [
+            "title" => "Login",
+            "errors" => []
+        ]);
+    }
+
+    function showRegister(Request $req, Response $resp) : Response {
+        return $this->render("register.php", [
+            "title" => "Register",
+            "errors" => []
+        ]);
+    }
+    
+    function showProfile(Request $req, Response $resp, Array $args) : Response {
+        $user = User::selectById((int)$args["id"]);
+        return $this->render("profil.php", [
+            "title" => "Profil",
+            "user" => $user
+        ]);
+    }
 
     public function login(Request $req, Response $resp) {
         $schema = new LoginSchema($_POST);
@@ -43,20 +64,6 @@ class UserController extends BaseController {
         }
     }
 
-    function showLogin(Request $req, Response $resp) : Response {
-        return $this->render("login.php", [
-            "title" => "Login",
-            "errors" => []
-        ]);
-    }
-
-    function showRegister(Request $req, Response $resp) : Response {
-        return $this->render("register.php", [
-            "title" => "Register",
-            "errors" => []
-        ]);
-    }
-
     public function register(Request $req, Response $resp) {
         $schema = new RegisterSchema($_POST);
         $result = $schema->validate();
@@ -83,11 +90,8 @@ class UserController extends BaseController {
         }
     }
 
-    function showProfile(Request $req, Response $resp, Array $args) : Response {
-        $user = User::selectById((int)$args["id"]);
-        return $this->render("profil.php", [
-            "title" => "Profil",
-            "user" => $user
-        ]);
+    public function logout(Request $req, Response $resp): Response {
+        unset($_SESSION["user"]);
+        return $this->redirect("/");
     }
 }

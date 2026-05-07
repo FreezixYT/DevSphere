@@ -74,7 +74,7 @@ abstract class BaseController {
 		return $this->renderer->render($resp, $page, $data);
 	}
 
-	protected function redirect(string $url, HTTPStatus $status = HTTPStatus::MOVED_PERMANENTLY, Response $resp = null) {
+	protected function redirect(string $url, HTTPStatus $status = HTTPStatus::MOVED_PERMANENTLY, ?Response $resp = null) {
 		if ($resp === null)
 			$resp = $this->respFact->createResponse();
 		return $resp->withStatus($status->value)->withHeader("Location", $url);

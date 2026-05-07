@@ -30,9 +30,16 @@ class User extends BaseModel {
     public array $tags {
         get => Tag::selectAllByUserId($this->id);
     }
+
+    private array $_roles = [];
+
     #[DB\Column, DB\Block]
     public array $roles {
-        get => Role::selectAllByUserId($this->id);
+        get {
+            if (count($this->_roles) < 1)
+                $this->_roles = Role::selectAllByUserId($this->id);
+            return $this->_roles;
+        }
     }
     
     public DateTime $createAt {
@@ -78,7 +85,7 @@ class User extends BaseModel {
         return static::selectBy("id", $id);
     }
 
-    public static function deleteUser($id)
+    public static function deleteUser(int $id)
     {
         return static::deleteBy("id", $id);
     }
@@ -91,6 +98,11 @@ class User extends BaseModel {
             WHERE `UserRole`.`roleId` = ?;";
         $sttmt = static::run($sql, [$id]);
         return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
+    }
+
+    public function hasRequestedRole(int $id) {
+        $request = RoleRequest::selectByUserAndRole($this->id, $id);
+        return $request !== false;
     }
 
     public static function selectById(int $id) {
