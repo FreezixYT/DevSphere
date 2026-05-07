@@ -87,16 +87,17 @@ CREATE TABLE `RoleTag`(
         ON DELETE CASCADE ON UPDATE RESTRICT
 );
 
-CREATE TABLE `Request`(
+CREATE TABLE `RoleRequest`(
     `roleId` INT UNSIGNED NOT NULL,
     `userId` INT UNSIGNED NOT NULL,
     `message` VARCHAR(150) NOT NULL,
     `status` ENUM('Pending','Accepted','Declined') NOT NULL DEFAULT 'Pending',
     `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    CONSTRAINT fk_request_role
+    PRIMARY KEY(`roleId`, `userId`),
+    CONSTRAINT fk_rolerequest_role
         FOREIGN KEY (`roleId`) REFERENCES `Role`(id)
         ON DELETE CASCADE ON UPDATE RESTRICT,
-    CONSTRAINT fk_request_user
+    CONSTRAINT fk_rolerequest_user
         FOREIGN KEY (`userId`) REFERENCES `User`(id)
         ON DELETE CASCADE ON UPDATE RESTRICT
 );

@@ -1,89 +1,93 @@
 <?php
 namespace DevSphere\Controllers;
 
-use DateInterval;
-use DateTime;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+
 use DevSphere\Models\User;
 use DevSphere\Schemas\LoginSchema;
 use DevSphere\Schemas\RegisterSchema;
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-
 
 
 class UserController extends BaseController {
-    
-    public function getAll($req, $resp) {
-        $users = User::selectAll();
-        return $this->sendJSON($users);
-    }
 
-    public function login($req, $resp)
-    {
-        $data = $this->getBody($req);
-        $schema = new LoginSchema($data);
+    public function login(Request $req, Response $resp) {
+        $schema = new LoginSchema($_POST);
         $result = $schema->validate();
     
-        if ($result === true)
-        {
+        if ($result === true) {
             $user = User::findByEmail($schema->email);
-        
             if (!$user) {
-                return $this->sendJSON(["error" => "Utilisateur introuvable"]);
+                return $this->render("login.php", [
+                    "title" => "Login",
+                    "errors" => ["User not found"]
+                ]);
             }
-        
-            if (password_verify($schema->password, $user->password))
-            {
-                $jwt = $this->generateJWT($user);
-                $_SESSION["JWT"] = $jwt;
-                return $this->sendJSON(["jwt" => $jwt]);
+            if (password_verify($schema->password, $user->password)) {
+                $_SESSION["user"] = $user;
+                return $this->redirect("/");
             }
-            else
-            {
-                return $this->sendJSON(["error" => "Mot de pass incorecte"]);
+            else {
+                return $this->render("login.php", [
+                    "title" => "Login",
+                    "errors" => ["Wrong password"]
+                ]);
             }
         }
-        else
-        {
-            return $this->sendErrors($result);
+        else {
+            return $this->render("login.php", [
+                "title" => "Login",
+                "errors" => $result
+            ]);
         }
     }
 
-    public function register($req, $resp)
-    {
-        $data = $this->getBody($req);
-        $schema = new RegisterSchema($data);
+    function showLogin(Request $req, Response $resp) : Response {
+        return $this->render("login.php", [
+            "title" => "Login",
+            "errors" => []
+        ]);
+    }
+
+    function showRegister(Request $req, Response $resp) : Response {
+        return $this->render("register.php", [
+            "title" => "Register",
+            "errors" => []
+        ]);
+    }
+
+    public function register(Request $req, Response $resp) {
+        $schema = new RegisterSchema($_POST);
         $result = $schema->validate();
 
-        if ($result === true)
-        {
+        if ($result === true) {
             $status = User::checkEmail($schema);
-            if ($status)
-            {
-                return $this->sendJSON(["mailError" => "Cette email est deja utiliser"]);
+            if ($status) {
+                return $this->render("register.php", [
+                    "title" => "Register",
+                    "errors" => ["Email already used"]
+                ]);
             }
             
             $id = User::createUser($schema);
             $user = User::getUser($id);
-            $jwt = $this->generateJWT($user);
-            return $this->sendJSON(["jwt" => $jwt]);
+            $_SESSION["user"] = $user;
+            return $this->redirect("/");
         }
-        else
-        {
-            return $this->sendErrors($result);
+        else {
+            return $this->render("register.php", [
+                "title" => "Register",
+                "errors" => $result
+            ]);
         }
     }
-    private function generateJWT(User $user) {
-        $key = $_ENV["JWT_KEY"] ?? 'FYCFg6JaPmRpicpoWsWovyvm0oN7jh4McCRtEMBxXxr';
-        $today = new DateTime();
-        $interval = DateInterval::createFromDateString('1 day');
-        $payload = [
-            'sub' => $user->id,
-            'iat' => $today->getTimestamp(),
-            'exp' => $today->add($interval)
-        ];
-        $jwt = JWT::encode($payload, $key, 'HS256');
-        return $jwt;
+
+    function showProfile(Request $req, Response $resp, Array $args) : Response {
+        $user = User::selectById((int)$args["id"]);
+        return $this->render("profil.php", [
+            "title" => "Profil",
+            "user" => $user
+        ]);
     }
 }

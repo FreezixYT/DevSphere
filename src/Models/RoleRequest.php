@@ -4,16 +4,16 @@ namespace DevSphere\Models;
 use PHPUtils\BaseModel;
 use PHPUtils\Attributes\DB;
 
-class Request extends BaseModel {
+class RoleRequest extends BaseModel {
     #[DB\Column, DB\Block(DB\Block::UPDATE)]
-    public string $roleId;
+    public int $roleId;
     #[DB\Column, DB\Block(DB\Block::UPDATE)]
-    public string $userId;
+    public int $userId;
     #[DB\Column]
     public string $message;
     #[DB\Column, DB\Block(DB\Block::INSERT)]
     public string $status;
-    #[DB\Column, DB\Block]
+    #[DB\Column, DB\Block(DB\Block::UPDATE, DB\Block::INSERT)]
     public string $createdAt;
 
     public function __construct(array $data = [])
@@ -26,7 +26,7 @@ class Request extends BaseModel {
      *
      * @param integer $userId
      * @param integer $roleId
-     * @return Request
+     * @return RoleRequest|false
      */
     public static function selectByUserAndRole(int $userId, int $roleId) {
         $table = static::getTable();
@@ -39,7 +39,7 @@ class Request extends BaseModel {
      /**
      *
      * @param integer $userId
-     * @return Request[]
+     * @return RoleRequest[]
      */
     public static function selectAllByUserId(int $userId) {
         $table = static::getTable();
@@ -52,7 +52,7 @@ class Request extends BaseModel {
      /**
      *
      * @param integer $roleId
-     * @return Request[]
+     * @return RoleRequest[]
      */
     public static function selectAllByRoleId(int $roleId) {
         $table = static::getTable();

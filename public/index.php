@@ -28,7 +28,6 @@ $app = AppFactory::createFromContainer($container);
 //$app->addErrorMiddleware(true, false, false);
 
 //routes api
-(require_once __DIR__."/../src/Config/routes-web.php")($app);
-(require_once __DIR__."/../src/Config/routes-api.php")($app);
+(require_once __DIR__."/../src/Config/routes.php")($app);
 
 $app->run();

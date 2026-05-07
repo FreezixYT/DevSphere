@@ -9,7 +9,7 @@ VALUES
 ('Bob', 'Durand', 'bobbyd', 'bob@example.com',
  '$2a$12$uJqBMRAPiGgnuyL0A2OV1.qSqRgCKdgYkUV9rUKFP1AZ.IB9hL8da', 'Member'),
 
-('Charlie', 'Nguyen', 'charlie_dev', 'charlie@example.com',
+('Joao', 'Pereira', 'JoaoPV', 'joao.prrvz@eduge.ch',
  '$2a$12$uJqBMRAPiGgnuyL0A2OV1.qSqRgCKdgYkUV9rUKFP1AZ.IB9hL8da', 'Admin'),
 
 ('Diana', 'Lopez', 'diana_codes', 'diana@example.com',
@@ -95,7 +95,7 @@ VALUES
 (5, 7);  -- UI/UX
 
 
-INSERT INTO `Request` (`roleId`, `userId`, `message`, `status`)
+INSERT INTO `RoleRequest` (`roleId`, `userId`, `message`, `status`)
 VALUES
 (1, 2, 'I would love to help with the React UI.', 'Pending'),
 (1, 4, 'Experienced with React, happy to join.', 'Accepted'),

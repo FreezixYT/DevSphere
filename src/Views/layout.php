@@ -1,3 +1,7 @@
+<?php
+/** @var string $title */
+/** @var string $content */
+?>
 <!DOCTYPE html>
 <html data-theme="dark" lang="fr">
 
@@ -39,7 +43,7 @@
     </main>
 
     <footer class="shadow-sm bottom-0 bg-base-100 footer d-flex justify-center p-4">
-        <p class="text-center">&copy; 2026 - Nathan Pache & Joao Perrera vaz - All right reserved</p>
+        <p class="text-center">&copy; 2026 - Nathan Pache & Joao Pereira Vaz - All right reserved</p>
     </footer>
 </body>
 

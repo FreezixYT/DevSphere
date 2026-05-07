@@ -64,28 +64,13 @@ class User extends BaseModel {
 
     public static function checkEmail(RegisterSchema $data)
     {
-        $sql = "SELECT email FROM User WHERE email = :email";
-        $params = ['email' => $data->email];
-        $stmt = static::run($sql, $params);
-
-        return $stmt->rowCount() > 0;
+        $user = static::findByEmail($data->email);
+        return $user !== false;
     }
 
-    public static function findByEmail($email)
+    public static function findByEmail(string $email)
     {
-        $sql = "SELECT * FROM User WHERE email = :email";
-        $stmt = static::run($sql, ['email' => $email]);
-    
-        $data = $stmt->fetch(\PDO::FETCH_ASSOC);
-    
-        if (!$data) return null;
-    
-        $user = new self();
-        $user->id = $data['id'];
-        $user->email = $data['email'];
-        $user->password = $data['password'];
-    
-        return $user;
+        return static::selectBy("email", $email);
     }
 
     public static function getUser(int $id)
