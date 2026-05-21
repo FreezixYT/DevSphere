@@ -50,8 +50,8 @@ $connected = $user !== null;
 
 <body class="flex flex-col h-screen">
     <nav class="navbar bg-primary shadow-sm">
-        <? if ($connected): ?>
         <div class="navbar-start">
+        <? if ($connected): ?>
             <div class="dropdown">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
                     <div class="avatar avatar-placeholder p-2">
@@ -68,8 +68,8 @@ $connected = $user !== null;
                     <li><a>About</a></li>
                 </ul>
             </div>
-        </div>
         <? endif ?>
+        </div>
         <div class="navbar-center">
             <a class="btn btn-ghost text-xl" href="/">
                 <div class="icon-stack">
@@ -80,12 +80,16 @@ $connected = $user !== null;
             </a>
         </div>
         <div class="navbar-end">
-            <button class="btn btn-ghost btn-circle">
-                <div class="indicator">
-                    <span class="badge badge-xs badge-secondary indicator-item">1</span>
-                    <i class="bi bi-envelope text-xl"></i>
-                </div>
-            </button>
+            <? if ($connected): ?>
+                <button class="btn btn-ghost btn-circle">
+                    <div class="indicator">
+                        <span class="badge badge-xs badge-secondary indicator-item">1</span>
+                        <i class="bi bi-envelope text-xl"></i>
+                    </div>
+                </button>
+            <? else: ?>
+                <a href="/login">Login</a>
+            <? endif ?>
         </div>
     </nav>
     <main class="flex-1">
