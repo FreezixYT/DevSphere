@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 use DevSphere\Models\User;
 use DevSphere\Schemas\LoginSchema;
+use DevSphere\Schemas\UpdateSchema;
 use DevSphere\Schemas\RegisterSchema;
 use UnexpectedValueException;
 
@@ -62,6 +63,30 @@ class UserController extends BaseController {
                 "errors" => $result
             ]);
         }
+    }
+
+    public function editProfil(Request $req, Response $resp) {
+        $schema = new UpdateSchema($_POST);
+        $result = $schema->validate();
+
+        if ($result === true) {
+            $id = $_SESSION["user"]->id;
+            User::updateUser($id, $schema);
+            $user = User::getUser($id);
+
+            return $this->redirect("/");
+        }
+        else {
+            return $this->render("register.php", [
+                "title" => "Register",
+                "errors" => $result
+            ]);
+        }
+    }
+
+    
+    public function showEditProfil(Request $req, Response $resp) {
+        return $this->render("editProfil.php");
     }
 
     public function register(Request $req, Response $resp) {
