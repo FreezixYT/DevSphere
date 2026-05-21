@@ -16,6 +16,9 @@ class RoleRequest extends BaseModel {
     #[DB\Column, DB\Block(DB\Block::UPDATE, DB\Block::INSERT)]
     public string $createdAt;
 
+    public User $user { get => User::selectById($this->userId); }
+    public Role $role { get => Role::selectById($this->roleId); }
+
     public function __construct(array $data = [])
     {
         foreach ($data as $key => $value)
@@ -66,5 +69,10 @@ class RoleRequest extends BaseModel {
         $sql = static::getInsertQuery();
         static::run($sql, [$roleId, $userId, $message]);
         return static::selectByUserAndRole($userId, $roleId);
+    }
+
+    public function update() {
+        $table = $this->getTable();
+        $sql = "UPDATE `$table";
     }
 }

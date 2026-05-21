@@ -40,4 +40,12 @@ class Project extends BaseModel {
     public static function selectByUserId(int $id) {
         return static::selectBy("userId", $id);
     }
+
+    public static function selectAllByUserId(int $id) {
+        $table = static::getTable();
+        $sql = static::getSelectQuery();
+        $sql .= "WHERE `$table`.userId = ?";
+        $sttmt = static::run($sql, [$id]);
+        return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
+    }
 }

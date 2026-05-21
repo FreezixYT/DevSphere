@@ -24,6 +24,8 @@ class Role extends BaseModel {
     public array $tags { 
         get => Tag::selectAllByRoleId($this->id);
     }
+    /** @var RoleRequest[] */
+    public array $requests { get => RoleRequest::selectAllByRoleId($this->id); }
 
     public static function selectById(int $id) {
         return static::selectBy("id", $id);
@@ -45,7 +47,7 @@ class Role extends BaseModel {
 
     /**
      * @param integer $id
-     * @return Tag[]
+     * @return static[]
      */
     public static function selectAllByProjectId(int $id): array {
         $table = static::getTable();

@@ -7,6 +7,7 @@ use DevSphere\Models\User;
 /** @var User|null $user */
 $user = $_SESSION["user"] ?? null;
 $connected = $user !== null;
+$requests = $user == null ? [] : $user->getRoleRequests();
 ?>
 <!DOCTYPE html>
 <html data-theme="dark" lang="fr">
@@ -48,57 +49,85 @@ $connected = $user !== null;
     </style>
 </head>
 
-<body class="flex flex-col h-screen">
-    <nav class="navbar bg-primary shadow-sm">
-        <div class="navbar-start">
-        <? if ($connected): ?>
-            <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-                    <div class="avatar avatar-placeholder p-2">
-                        <div class="bg-neutral text-neutral-content w-8 rounded-full p-auto">
-                            <span><?= strtoupper($user->username[0]) ?></span>
+<body class="h-screen drawer drawer-end">
+    <input id="message-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex flex-col h-full">
+        <nav class="navbar bg-primary shadow-sm">
+            <div class="navbar-start">
+                <? if ($connected): ?>
+                    <div class="dropdown">
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                            <div class="avatar avatar-placeholder p-2">
+                                <div class="bg-neutral text-neutral-content w-8 rounded-full p-auto">
+                                    <span><?= strtoupper($user->username[0]) ?></span>
+                                </div>
+                            </div>
+                        </div>
+                        <ul
+                            tabindex="-1"
+                            class="menu menu-sm dropdown-content bg-neutral rounded-box z-1 mt-3 w-52 p-2 shadow">
+                            <li><a>Homepage</a></li>
+                            <li><a>Portfolio</a></li>
+                            <li><a>About</a></li>
+                        </ul>
+                    </div>
+                <? endif ?>
+            </div>
+            <div class="navbar-center">
+                <a class="btn btn-ghost text-xl" href="/">
+                    <div class="icon-stack">
+                        <i class="bi bi-circle icon-bg"></i>
+                        <i class="bi bi-code-slash icon-fg"></i>
+                    </div>
+                    DevSphere
+                </a>
+            </div>
+            <div class="navbar-end">
+                <? if ($connected): ?>
+                    <label for="message-drawer" class="btn btn-ghost btn-circle btn-drawer">
+                        <div class="indicator">
+                            <span class="badge badge-xs badge-secondary indicator-item">1</span>
+                            <i class="bi bi-envelope text-xl"></i>
+                        </div>
+                    </label>
+                <? else: ?>
+                    <a href="/login">Login</a>
+                <? endif ?>
+            </div>
+        </nav>
+        <main class="flex-1">
+            <?= $content ?>
+        </main>
+
+        <footer class="shadow-sm bottom-0 bg-base-100 footer d-flex justify-center p-4">
+            <p class="text-center">&copy; 2026 - Nathan Pache & Joao Pereira Vaz - All right reserved</p>
+        </footer>
+    </div>
+    <div class="drawer-side">
+        <label for="message-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+        <ul class="menu bg-base-200 min-h-full w-80 p-4">
+            <? foreach ($requests as $request): ?>
+                <form method="post" action="/request/<?= $request->userId ?>/<?= $request->roleId ?>" class="p-2 border-b-2 border-base">
+                    <h1 class="text-lg font-semibold"><?= $request->role->name ?></h1>
+                    <div class="chat chat-start">
+                        <div class="chat-image avatar avatar-placeholder">
+                            <div class="bg-neutral text-neutral-content w-8 rounded-full p-auto">
+                                <span><?= strtoupper($request->user->username[0]) ?></span>
+                            </div>
+                        </div>
+                        <div class="chat-bubble">
+                            <p><?= $request->message ?></p>
+                            <p>By: <?= $request->user->email ?></p>
                         </div>
                     </div>
-                </div>
-                <ul
-                    tabindex="-1"
-                    class="menu menu-sm dropdown-content bg-neutral rounded-box z-1 mt-3 w-52 p-2 shadow">
-                    <li><a>Homepage</a></li>
-                    <li><a>Portfolio</a></li>
-                    <li><a>About</a></li>
-                </ul>
-            </div>
-        <? endif ?>
-        </div>
-        <div class="navbar-center">
-            <a class="btn btn-ghost text-xl" href="/">
-                <div class="icon-stack">
-                    <i class="bi bi-circle icon-bg"></i>
-                    <i class="bi bi-code-slash icon-fg"></i>
-                </div>
-                DevSphere
-            </a>
-        </div>
-        <div class="navbar-end">
-            <? if ($connected): ?>
-                <button class="btn btn-ghost btn-circle">
-                    <div class="indicator">
-                        <span class="badge badge-xs badge-secondary indicator-item">1</span>
-                        <i class="bi bi-envelope text-xl"></i>
+                    <div class="w-full flex">
+                        <button class="btn btn-success ml-auto" type="submit" name="choice" value="Accepted">Accept</button>
+                        <button class="btn btn-error ml-2" type="submit" name="choice" value="Declined">Decline</button>
                     </div>
-                </button>
-            <? else: ?>
-                <a href="/login">Login</a>
-            <? endif ?>
-        </div>
-    </nav>
-    <main class="flex-1">
-        <?= $content ?>
-    </main>
-
-    <footer class="shadow-sm bottom-0 bg-base-100 footer d-flex justify-center p-4">
-        <p class="text-center">&copy; 2026 - Nathan Pache & Joao Pereira Vaz - All right reserved</p>
-    </footer>
+                </form>
+            <? endforeach ?>
+        </ul>
+    </div>
 </body>
 
 </html>

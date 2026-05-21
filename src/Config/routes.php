@@ -6,8 +6,7 @@ use DevSphere\Controllers\UserController;
 use DevSphere\Middlewares\Auth;
 use Slim\Interfaces\RouteCollectorProxyInterface as RouteCollectorProxy;
 
-return function(App $app) 
-{
+return function(App $app) {
 	$app->get("/", [ProjectController::class, "showHome"]);
 	$app->group("/project", function(RouteCollectorProxy $group) {
 		$group->get("/{id}", [ProjectController::class, "showDetails"]);

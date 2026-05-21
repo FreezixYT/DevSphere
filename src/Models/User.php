@@ -3,7 +3,6 @@ namespace DevSphere\Models;
 
 use DateTime;
 use DevSphere\Enums\UserType;
-use DevSphere\Schemas\LoginSchema;
 use DevSphere\Schemas\RegisterSchema;
 use PHPUtils\BaseModel;
 use PHPUtils\Attributes\DB;
@@ -41,6 +40,8 @@ class User extends BaseModel {
             return $this->_roles;
         }
     }
+
+    public array $projects { get => Project::selectAllByUserId($this->id); }
     
     public DateTime $createAt {
         get => DateTime::createFromFormat("Y-m-d H:i:s", $this->_createdAt);
@@ -107,5 +108,20 @@ class User extends BaseModel {
 
     public static function selectById(int $id) {
         return static::selectBy("id", $id);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return RoleRequest[]
+     */
+    public function getRoleRequests() {
+        $requests = [];
+        foreach ($this->projects as $project) {
+            foreach (Role::selectAllByProjectId($project->id) as $role) {
+                $requests = array_merge($requests, $role->requests);
+            }
+        }
+        return $requests;
     }
 }
