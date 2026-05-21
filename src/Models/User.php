@@ -4,6 +4,7 @@ namespace DevSphere\Models;
 use DateTime;
 use DevSphere\Enums\UserType;
 use DevSphere\Schemas\RegisterSchema;
+use DevSphere\Schemas\UpdateSchema;
 use PHPUtils\BaseModel;
 use PHPUtils\Attributes\DB;
 
@@ -18,11 +19,11 @@ class User extends BaseModel {
     public string $username;
     #[DB\Column]
     public string $email;
-    #[DB\Column, DB\Hidden]
+    #[DB\Column, DB\Hidden, DB\Block(DB\Block::UPDATE)]
     public string $password;
-    #[DB\Column("type"), DB\Block(DB\Block::INSERT)]
+    #[DB\Column("type"), DB\Block(DB\Block::INSERT, DB\Block::UPDATE)]
     private string $_type;
-    #[DB\Column("createdAt"), DB\Block(DB\Block::INSERT)]
+    #[DB\Column("createdAt"), DB\Block(DB\Block::INSERT, DB\Block::UPDATE)]
     private string $_createdAt;
 
     #[DB\Column, DB\Block]
@@ -68,6 +69,11 @@ class User extends BaseModel {
         $params = [$data->firstname, $data->lastname, $data->pseudo, $data->email, password_hash($data->password, PASSWORD_BCRYPT)];
         $sttmt = static::run($sql, $params);
         return static::getDB()->lastInsertId();
+    }
+
+    public static function updateUser(int $id, UpdateSchema $data)
+    {
+        new User()->updateBy("id", $id, [$data->firstname, $data->lastname, $data->pseudo, $data->email]);
     }
 
     public static function checkEmail(RegisterSchema $data)

@@ -12,7 +12,7 @@ return function(App $app) {
 		$group->get("/{id}", [ProjectController::class, "showDetails"]);
 	});
 	$app->group("/user", function(RouteCollectorProxy $group) {
-		$group->get("/{id}", [UserController::class, "showProfile"]);
+		$group->get("/{id}", [UserController::class, "showProfile"])->add(Auth::class);
 	});
 
 	$app->group("/role", function(RouteCollectorProxy $group) {
@@ -24,6 +24,9 @@ return function(App $app) {
 
 	$app->get("/register", [UserController::class, "showRegister"]);
 	$app->post("/register", [UserController::class, "register"]);
+
+	$app->post('/editProfil', [UserController::class, "editProfil"])->add(Auth::class);
+	$app->get('/editProfil', [UserController::class, "showEditProfil"])->add(Auth::class);
 
 	$app->get("/logout", [UserController::class, "logout"]);
 };
