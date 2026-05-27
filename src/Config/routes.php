@@ -9,6 +9,8 @@ use Slim\Interfaces\RouteCollectorProxyInterface as RouteCollectorProxy;
 return function(App $app) {
 	$app->get("/", [ProjectController::class, "showHome"]);
 	$app->group("/project", function(RouteCollectorProxy $group) {
+		$group->get("/create", [ProjectController::class, "showCreate"])->add(Auth::class);
+		$group->post("/create", [ProjectController::class, "create"])->add(Auth::class);
 		$group->get("/{id}", [ProjectController::class, "showDetails"]);
 	});
 	$app->group("/user", function(RouteCollectorProxy $group) {

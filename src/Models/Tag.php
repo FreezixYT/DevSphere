@@ -35,9 +35,9 @@ class Tag extends BaseModel {
     public static function selectAllByProjectId(int $id): array {
         $table = static::getTable();
         $sql = static::getSelectQuery();
-        $sql .= "JOIN `UserTag` ON 
-            `UserTag`.`tagId` = $table.`id`
-            WHERE `UserTag`.`userId` = ?;";
+        $sql .= "JOIN `ProjectTag` ON 
+            `ProjectTag`.`tagId` = $table.`id`
+            WHERE `ProjectTag`.`projectId` = ?;";
         $sttmt = static::run($sql, [$id]);
         return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
     }

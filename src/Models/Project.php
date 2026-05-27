@@ -48,4 +48,22 @@ class Project extends BaseModel {
         $sttmt = static::run($sql, [$id]);
         return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
+
+    public function insert(): int {
+        $sql = static::getInsertQuery();
+        static::run($sql, [
+            $this->name,
+            $this->description,
+            $this->userId
+        ]);
+        return static::getDB()->lastInsertId();
+    }
+
+    public static function create(string $name, string $description, int $userId) {
+        $project = new Project();
+        $project->name = $name;
+        $project->description = $description;
+        $project->userId = $userId;
+        return $project;
+    }
 }

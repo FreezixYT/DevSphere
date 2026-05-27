@@ -15,6 +15,7 @@ use DevSphere\Models\Project;
                 </div>
                 <button class="btn btn-neutral join-item">Search</button>
             </div>
+            <a href="/project/create" class="btn btn-success">Create Project</a>
         </form>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
