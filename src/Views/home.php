@@ -26,9 +26,9 @@ use DevSphere\Models\Project;
                     <div class="card-body">
                         <h2 class="card-title"><?= $project->name ?></h2>
                         <p><?= $project->description ?></p>
-                        <div class="flex gap-2">
+                        <div class="w-full">
                             <? foreach ($project->tags as $i => $tag) :?>
-                                <div class="badge badge-<?= $i % 3 == 0 ? "accent" : ($i % 2 == 0 ? "secondary" : "primary")  ?>">
+                                <div class="m-1 badge badge-<?= $i % 3 == 0 ? "accent" : ($i % 2 == 0 ? "secondary" : "primary")  ?>">
                                     <?= $tag->name ?>
                                 </div>
                             <? endforeach ?>

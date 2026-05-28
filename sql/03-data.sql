@@ -69,6 +69,35 @@ INSERT INTO `UserRole` (`userId`, `roleId`)
 VALUES
 (2, 2); -- Bob is Backend Developer
 
+USE `DevSphere`;
+
+-- Insert ProjectTag relationships
+-- Projects and their relevant tags based on their descriptions and tech stack
+
+INSERT INTO `ProjectTag` (`projectId`, `tagId`)
+VALUES
+-- TaskFlow (Project 1): Task management app - Frontend heavy, Node.js backend
+(1, 1),  -- JavaScript
+(1, 3),  -- Node.js
+(1, 4),  -- React
+(1, 7),  -- UI/UX
+
+-- EcoTrack (Project 2): Carbon footprint tracking with ML suggestions
+(2, 1),  -- JavaScript
+(2, 2),  -- Python
+(2, 3),  -- Node.js
+(2, 8),  -- Machine Learning
+
+-- DevMatch (Project 3): Developer-to-project matching platform
+(3, 1),  -- JavaScript
+(3, 2),  -- Python
+(3, 5),  -- SQL
+(3, 6),  -- DevOps
+
+-- FitBuddy (Project 4): AI-powered fitness assistant
+(4, 1),  -- JavaScript
+(4, 2),  -- Python
+(4, 8);  -- Machine Learning
 
 INSERT INTO `RoleTag` (`roleId`, `tagId`)
 VALUES
