@@ -9,42 +9,42 @@
 
     <form method="post" action="/register">
         <div class="form-control m-4">
-        <label class="label">
-            <span class="label-text">Firstname</span>
-        </label>
-        <input type="text" name="firstname" placeholder="John" class="input input-bordered" required />
+            <label class="label">
+                <span class="label-text">Firstname</span>
+            </label>
+            <input type="text" name="firstname" placeholder="John" class="input input-bordered" required />
         </div>
 
         <div class="form-control m-4">
-        <label class="label">
-            <span class="label-text">Lastname</span>
-        </label>
-        <input type="text" name="lastname" placeholder="Doe" class="input input-bordered" required />
+            <label class="label">
+                <span class="label-text">Lastname</span>
+            </label>
+            <input type="text" name="lastname" placeholder="Doe" class="input input-bordered" required />
         </div>
 
         <div class="form-control m-4">
-        <label class="label">
-            <span class="label-text">Pseudo</span>
-        </label>
-        <input type="text" name="pseudo" placeholder="Jojo" class="input input-bordered" required />
+            <label class="label">
+                <span class="label-text">Username</span>
+            </label>
+            <input type="text" name="pseudo" placeholder="Jojo" class="input input-bordered" required />
         </div>
 
         <div class="form-control m-4">
-        <label class="label">
-            <span class="label-text">Email</span>
-        </label>
-        <input type="email" name="email" placeholder="email@example.com" class="input input-bordered" required />
+            <label class="label">
+                <span class="label-text">Email</span>
+            </label>
+            <input type="email" name="email" placeholder="email@example.com" class="input input-bordered" required />
         </div>
 
         <div class="form-control m-4">
-        <label class="label">
-            <span class="label-text">Password</span>
-        </label>
-        <input type="password" name="password" placeholder="••••••••" class="input input-bordered" required />
+            <label class="label">
+                <span class="label-text">Password</span>
+            </label>
+            <input type="password" name="password" placeholder="••••••••" class="input input-bordered" required />
         </div>
 
         <div class="form-control flex justify-end m-4">
-        <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Register</button>
         </div>
     </form>
 

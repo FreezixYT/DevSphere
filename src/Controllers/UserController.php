@@ -1,6 +1,7 @@
 <?php
 namespace DevSphere\Controllers;
 
+use DevSphere\Models\Project;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -8,7 +9,6 @@ use DevSphere\Models\User;
 use DevSphere\Schemas\LoginSchema;
 use DevSphere\Schemas\UpdateSchema;
 use DevSphere\Schemas\RegisterSchema;
-use UnexpectedValueException;
 
 class UserController extends BaseController {
     
@@ -28,9 +28,11 @@ class UserController extends BaseController {
     
     function showProfile(Request $req, Response $resp, Array $args) : Response {
         $user = User::selectById((int)$args["id"]);
-        return $this->render("profil.php", [
-            "title" => "Profil",
-            "user" => $user
+        return $this->render("profile.php", [
+            "title" => "Profile",
+            "user" => $user,
+            "errors" => [],
+            "projects" => Project::selectAllByUserId($user->id)
         ]);
     }
 
@@ -65,7 +67,10 @@ class UserController extends BaseController {
         }
     }
 
-    public function editProfil(Request $req, Response $resp) {
+    public function editProfile(Request $req, Response $resp, array $args) {
+        $id = (int)$args["id"];
+        if ($id !== $_SESSION["user"]->id)
+            return $this->redirect("/");
         $schema = new UpdateSchema($_POST);
         $result = $schema->validate();
 
@@ -73,7 +78,6 @@ class UserController extends BaseController {
             $id = $_SESSION["user"]->id;
             User::updateUser($id, $schema);
             $user = User::getUser($id);
-
             return $this->redirect("/");
         }
         else {
@@ -82,11 +86,6 @@ class UserController extends BaseController {
                 "errors" => $result
             ]);
         }
-    }
-
-    
-    public function showEditProfil(Request $req, Response $resp) {
-        return $this->render("editProfil.php");
     }
 
     public function register(Request $req, Response $resp) {

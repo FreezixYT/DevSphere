@@ -4,18 +4,20 @@ use DevSphere\Models\Project;
 ?>
 <div class="flex justify-center mt-30 items-center">
     <div>
-        <h1 class="text-5xl">Sphere Dev</h1>
-        <form class="mt-5 mb-5 flex" action="">
-            <div class="join">
-                <div>
-                    <label class="input validator join-item">
+        <h1 class="text-5xl">Projects</h1>
+        <form class="mt-5 mb-5 flex flex-1" action="">
+            <div class="join w-full">
+                <div class="w-full">
+                    <label class="input validator join-item w-full">
                         <i class="bi bi-search"></i>
-                        <input type="email" placeholder="Search a project" required />
+                        <input name="q" type="text" placeholder="Search a project" required />
                     </label>
                 </div>
                 <button class="btn btn-neutral join-item">Search</button>
             </div>
-            <a href="/project/create" class="btn btn-success">Create Project</a>
+            <? if (isset($_SESSION["user"])): ?>
+                <a href="/project/create" class="btn btn-success">Create Project</a>
+            <? endif ?>
         </form>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">

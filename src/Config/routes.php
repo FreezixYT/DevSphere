@@ -15,6 +15,7 @@ return function(App $app) {
 	});
 	$app->group("/user", function(RouteCollectorProxy $group) {
 		$group->get("/{id}", [UserController::class, "showProfile"])->add(Auth::class);
+		$group->post("/{id}", [UserController::class, "editProfile"])->add(Auth::class);
 	});
 
 	$app->group("/role", function(RouteCollectorProxy $group) {
@@ -27,8 +28,8 @@ return function(App $app) {
 	$app->get("/register", [UserController::class, "showRegister"]);
 	$app->post("/register", [UserController::class, "register"]);
 
-	$app->post('/editProfil', [UserController::class, "editProfil"])->add(Auth::class);
-	$app->get('/editProfil', [UserController::class, "showEditProfil"])->add(Auth::class);
+	$app->post('/editProfile', [UserController::class, "editProfile"])->add(Auth::class);
+	$app->get('/editProfile', [UserController::class, "showEditProfile"])->add(Auth::class);
 
 	$app->get("/logout", [UserController::class, "logout"]);
 };

@@ -10,7 +10,7 @@ $connected = $user !== null;
 $requests = $user == null ? [] : $user->getRoleRequests();
 ?>
 <!DOCTYPE html>
-<html data-theme="dark" lang="fr">
+<html data-theme="dark" lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -66,9 +66,8 @@ $requests = $user == null ? [] : $user->getRoleRequests();
                         <ul
                             tabindex="-1"
                             class="menu menu-sm dropdown-content bg-neutral rounded-box z-1 mt-3 w-52 p-2 shadow">
-                            <li><a>Homepage</a></li>
-                            <li><a>Portfolio</a></li>
-                            <li><a>About</a></li>
+                            <li><a href="/user/<?= $user->id ?>">Profile</a></li>
+                            <li><a href="/logout">Logout</a></li>
                         </ul>
                     </div>
                 <? endif ?>
