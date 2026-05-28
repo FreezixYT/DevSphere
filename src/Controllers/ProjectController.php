@@ -15,6 +15,10 @@ class ProjectController extends BaseController {
     public function showDetails(Request $req, Response $resp, array $args) {
         $id = (int)$args["id"];
         $project = Project::selectById($id);
+        if ($project == null)
+        {
+            return $this->redirect("/");
+        }
         return $this->render("projectDetails.php", ["project" => $project]);
     }
 
@@ -28,8 +32,33 @@ class ProjectController extends BaseController {
     }
 
     public function showHome(Request $req, Response $resp, array $args) {
-        $projects = Project::selectAll();
-        return $this->render("home.php", ["projects" => $projects]);
+
+        
+
+        if ($_GET['q'] !== null)
+        {
+            $projects = Project::search([
+                "name" => $_GET['q']
+            ]);
+            if ($_GET['tags'])
+            {
+                $new = [];
+                foreach($projects as  $project) {
+                    $tags = array_filter($project->tags, fn($t) => in_array($t->id, $_GET["tags"]));
+                    if (count($tags) > 0)
+                        $new[] = $project;
+                }
+                $projects = $new;
+            }
+        }
+        else
+        {
+            $projects = Project::selectAll();
+        }
+
+        $tags = Tag::selectAll();
+
+        return $this->render("home.php", ["projects" => $projects, "tags" => $tags]);
     }
 
     public function showCreate(Request $req, Response $resp, array $args) {

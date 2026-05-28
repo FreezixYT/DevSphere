@@ -24,4 +24,12 @@ class ProjectTag extends BaseModel {
             $this->tagId
         ]);
     }
+
+    public function getIdByProject(int $tagId) {
+        $sql = static::getSelectQuery();
+        static::run($sql, [
+            $this->projectId,
+            $this->tagId
+        ]);
+    }
 }
