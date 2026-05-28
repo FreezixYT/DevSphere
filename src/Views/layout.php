@@ -7,7 +7,7 @@ use DevSphere\Models\User;
 /** @var User|null $user */
 $user = $_SESSION["user"] ?? null;
 $connected = $user !== null;
-$requests = $user == null ? [] : $user->getRoleRequests();
+$requests = $user == null ? [] : $user->getPendingRoleRequests();
 ?>
 <!DOCTYPE html>
 <html data-theme="dark" lang="en">
@@ -84,8 +84,13 @@ $requests = $user == null ? [] : $user->getRoleRequests();
             <div class="navbar-end">
                 <? if ($connected): ?>
                     <label for="message-drawer" class="btn btn-ghost btn-circle btn-drawer">
+
                         <div class="indicator">
-                            <span class="badge badge-xs badge-secondary indicator-item">1</span>
+                            <? if (count($requests) > 0): ?>
+                                <span class="badge badge-xs badge-secondary indicator-item">
+                                    <?= count($requests) ?>
+                                </span>
+                            <? endif ?>
                             <i class="bi bi-envelope text-xl"></i>
                         </div>
                     </label>
@@ -105,8 +110,11 @@ $requests = $user == null ? [] : $user->getRoleRequests();
     <div class="drawer-side">
         <label for="message-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
         <ul class="menu bg-base-200 min-h-full w-80 p-4">
+            <? if (count($requests) === 0): ?>
+                <h2>You have no pending requests</h2>
+            <? endif ?>
             <? foreach ($requests as $request): ?>
-                <form method="post" action="/request/<?= $request->userId ?>/<?= $request->roleId ?>" class="p-2 border-b-2 border-base">
+                <form method="post" action="/request/<?= $request->userId ?>-<?= $request->roleId ?>" class="p-2 border-b-2 border-base">
                     <h1 class="text-lg font-semibold"><?= $request->role->name ?></h1>
                     <div class="chat chat-start">
                         <div class="chat-image avatar avatar-placeholder">
@@ -120,8 +128,8 @@ $requests = $user == null ? [] : $user->getRoleRequests();
                         </div>
                     </div>
                     <div class="w-full flex">
-                        <button class="btn btn-success ml-auto" type="submit" name="choice" value="Accepted">Accept</button>
-                        <button class="btn btn-error ml-2" type="submit" name="choice" value="Declined">Decline</button>
+                        <button class="btn btn-success ml-auto" type="submit" name="choice" value="accepted">Accept</button>
+                        <button class="btn btn-error ml-2" type="submit" name="choice" value="declined">Decline</button>
                     </div>
                 </form>
             <? endforeach ?>

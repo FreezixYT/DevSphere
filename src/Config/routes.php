@@ -2,6 +2,7 @@
 use Slim\App;
 use DevSphere\Controllers\ProjectController;
 use DevSphere\Controllers\RoleController;
+use DevSphere\Controllers\RoleRequestController;
 use DevSphere\Controllers\UserController;
 use DevSphere\Middlewares\Auth;
 use Slim\Interfaces\RouteCollectorProxyInterface as RouteCollectorProxy;
@@ -21,6 +22,7 @@ return function(App $app) {
 	$app->group("/role", function(RouteCollectorProxy $group) {
 		$group->post("/{id}/request", [RoleController::class, "request"])->add(Auth::class);
 	});
+	$app->post("/request/{userId}-{roleId}", [RoleRequestController::class, "updateStatus"]);
 
 	$app->get("/login", [UserController::class, "showLogin"]);
 	$app->post("/login", [UserController::class, "login"]);

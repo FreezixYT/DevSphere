@@ -26,6 +26,7 @@ class Role extends BaseModel {
     }
     /** @var RoleRequest[] */
     public array $requests { get => RoleRequest::selectAllByRoleId($this->id); }
+    public array $pendingRequests { get => RoleRequest::selectAllByRoleIdAndStatus($this->id, "pending"); }
 
     public static function selectById(int $id) {
         return static::selectBy("id", $id);
