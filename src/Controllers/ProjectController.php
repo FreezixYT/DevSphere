@@ -4,6 +4,7 @@ namespace DevSphere\Controllers;
 use DevSphere\Models\Project;
 use DevSphere\Models\ProjectTag;
 use DevSphere\Models\Role;
+use DevSphere\Models\RoleTag;
 use DevSphere\Models\Tag;
 use DevSphere\Schemas\CreateProject;
 use DevSphere\Schemas\CreateRole;
@@ -19,15 +20,20 @@ class ProjectController extends BaseController {
         {
             return $this->redirect("/");
         }
-        return $this->render("projectDetails.php", ["project" => $project]);
+        return $this->render("projectDetails.php", [
+            "project" => $project,
+            "errors" => [],
+            "tags" => Tag::selectAll()
+        ]);
     }
 
     public function createRole(Request $req, Response $resp, array $args) {
         $projectId = $args['id'];
         $schemas = new CreateRole($_POST);
-        $project = Role::create($projectId, $schemas->roleName, $schemas->roleDescription);
+        $project = Role::create($projectId, $schemas->name, $schemas->description);
         $id = $project->insert();
-
+        foreach ($schemas->tags as $tagId)
+            RoleTag::create($id, $tagId)->insert();
         return $this->redirect("/project/$projectId");
     }
 

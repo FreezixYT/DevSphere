@@ -6,7 +6,9 @@ use PHPUtils\BaseSchema;
 
 class CreateRole extends BaseSchema{
     #[Property]
-    public string $roleName;
+    public string $name;
     #[Property]
-    public string $roleDescription;
+    public string $description;
+    #[Property]
+    public array $tags;
 }
