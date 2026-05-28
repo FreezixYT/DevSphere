@@ -50,7 +50,15 @@ class RoleRequest extends BaseModel {
         $sql .= "WHERE `$table`.`userId` = ?";
         $sttmt = static::run($sql, [$userId]);
         return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
-    } 
+    }
+
+    public static function selectAllByUserIdAndStatus(int $userId, string $status) {
+        $table = static::getTable();
+        $sql = static::getSelectQuery();
+        $sql .= "WHERE `$table`.`userId` = ? AND `$table`.`status` = ?";
+        $sttmt = static::run($sql, [$userId, $status]);
+        return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
+    }
 
      /**
      *
@@ -65,6 +73,19 @@ class RoleRequest extends BaseModel {
         return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
 
+    /**
+     *
+     * @param integer $roleId
+     * @return RoleRequest[]
+     */
+    public static function selectAllByRoleIdAndStatus(int $roleId, string $status) {
+        $table = static::getTable();
+        $sql = static::getSelectQuery();
+        $sql .= "WHERE `$table`.`roleId` = ? AND `$table`.`status` = ?";
+        $sttmt = static::run($sql, [$roleId, $status]);
+        return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
+    }
+
     public static function insert(int $userId, int $roleId, string $message) {
         $sql = static::getInsertQuery();
         static::run($sql, [$roleId, $userId, $message]);
@@ -73,6 +94,12 @@ class RoleRequest extends BaseModel {
 
     public function update() {
         $table = $this->getTable();
-        $sql = "UPDATE `$table";
+        $sql = "UPDATE `$table` SET `status` = ?, `message` = ? WHERE `$table`.`userId` = ? AND `$table`.`roleId` = ?";
+        static::run($sql, [
+            $this->status,
+            $this->message,
+            $this->userId,
+            $this->roleId
+        ]);
     }
 }

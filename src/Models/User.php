@@ -121,11 +121,11 @@ class User extends BaseModel {
      *
      * @return RoleRequest[]
      */
-    public function getRoleRequests() {
+    public function getPendingRoleRequests() {
         $requests = [];
         foreach ($this->projects as $project) {
             foreach (Role::selectAllByProjectId($project->id) as $role) {
-                $requests = array_merge($requests, $role->requests);
+                $requests = array_merge($requests, $role->pendingRequests);
             }
         }
         return $requests;

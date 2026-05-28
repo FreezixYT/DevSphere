@@ -66,4 +66,11 @@ class Project extends BaseModel {
         $project->userId = $userId;
         return $project;
     }
+
+    public function delete() {
+        $sql = static::getDeleteQuery();
+        $table = static::getTable();
+        $sql .= "WHERE `$table`.`id` = ?";
+        static::run($sql, [$this->id]);
+    }
 }
