@@ -45,6 +45,16 @@ class Role extends BaseModel {
         return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
 
+    public function insert(): int {
+        $sql = static::getInsertQuery();
+        static::run($sql, [
+            $this->name,
+            $this->description,
+            $this->projectId
+        ]);
+        return static::getDB()->lastInsertId();
+    }
+
     /**
      * @param integer $id
      * @return static[]
@@ -55,5 +65,13 @@ class Role extends BaseModel {
         $sql .= "WHERE `$table`.`projectId` = ?";
         $sttmt = static::run($sql, [$id]);
         return $sttmt->fetchAll(\PDO::FETCH_CLASS, static::class);
+    }
+
+    public static function create(string $projectId, string $name, string $description) {
+        $role = new Role();
+        $role->projectId = $projectId;
+        $role->name = $name;
+        $role->description = $description;
+        return $role;
     }
 }

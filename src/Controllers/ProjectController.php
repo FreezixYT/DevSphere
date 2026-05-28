@@ -3,8 +3,10 @@ namespace DevSphere\Controllers;
 
 use DevSphere\Models\Project;
 use DevSphere\Models\ProjectTag;
+use DevSphere\Models\Role;
 use DevSphere\Models\Tag;
 use DevSphere\Schemas\CreateProject;
+use DevSphere\Schemas\CreateRole;
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -14,6 +16,15 @@ class ProjectController extends BaseController {
         $id = (int)$args["id"];
         $project = Project::selectById($id);
         return $this->render("projectDetails.php", ["project" => $project]);
+    }
+
+    public function createRole(Request $req, Response $resp, array $args) {
+        $projectId = $args['id'];
+        $schemas = new CreateRole($_POST);
+        $project = Role::create($projectId, $schemas->roleName, $schemas->roleDescription);
+        $id = $project->insert();
+
+        return $this->redirect("/project/$projectId");
     }
 
     public function showHome(Request $req, Response $resp, array $args) {

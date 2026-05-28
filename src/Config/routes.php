@@ -11,6 +11,7 @@ return function(App $app) {
 	$app->group("/project", function(RouteCollectorProxy $group) {
 		$group->get("/create", [ProjectController::class, "showCreate"])->add(Auth::class);
 		$group->post("/create", [ProjectController::class, "create"])->add(Auth::class);
+		$group->post("/{id}/role", [ProjectController::class, "createRole"])->add(Auth::class);
 		$group->get("/{id}", [ProjectController::class, "showDetails"]);
 	});
 	$app->group("/user", function(RouteCollectorProxy $group) {

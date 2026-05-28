@@ -1,8 +1,9 @@
+<?php
 
-<?php  
 use DevSphere\Models\Project;
 use DevSphere\Models\User;
-/** @var Project $project */ 
+
+/** @var Project $project */
 $owner = $project->owner;
 
 /** @var User|null $user */
@@ -14,7 +15,7 @@ $connected = $user !== null;
 <div class="flex flex-col w-8/10 m-auto h-full">
     <h1 class="p-5 border-b-2 text-center"><?= $project->name ?></h1>
     <div id="owner-info" class="p-5 border-b-2 flex items-center justify-between">
-        <h2>Owner</h2> 
+        <h2>Owner</h2>
         <div class="bg-primary flex items-center rounded">
             <div class="avatar avatar-placeholder p-2">
                 <div class="bg-neutral text-neutral-content w-8 rounded-full p-auto">
@@ -22,14 +23,49 @@ $connected = $user !== null;
                 </div>
             </div>
             <span class="p-2">
-            <?= $owner->username ?>
+                <?= $owner->username ?>
             </span>
         </div>
     </div>
+    <button id="btnCreateRole" class="btn btn-primary m-10 " onclick="my_modal_1.showModal()">Create role</button>
+    <dialog id="my_modal_1" class="modal">
+        <div class="modal-box">
+            <div class="card w-full max-w-sm bg-base-100">
+                <div class="card-body">
+                    <h3 class="text-lg font-bold">Add new role</h3>
+                    <form action="./<?= $project->id ?>/role" method="post">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Nom</span>
+                            </label>
+                            <input type="text" name="roleName" placeholder="Devlopper c#" class="input input-bordered" required />
+                        </div>
+
+                        <div class="form-control mt-4">
+                            <label class="label">
+                                <span class="label-text">Description</span>
+                            </label>
+                            <textarea type="text" name="roleDescription" placeholder="" class="input input-bordered" required></textarea>
+                        </div>
+
+                        <div class="form-control flex justify-end m-4">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+                    <div class="modal-action">
+                        <form method="dialog">
+                            <button class="btn">Back</button>
+                        </form>
+                    </div>
+                </div>
+    </dialog>
+
     <div id="roles" class="p-5 border-b-2 flex flex-wrap w-full justify-center flex-1 overflow-y-scroll">
-        <? foreach ($project->roles as $role) :?>
+        <? foreach ($project->roles as $role) : ?>
             <div class="m-2 collapse collapse-arrow bg-base-100 border border-base-300 h-fit w-150 max-w-full">
-                <input type="radio" name="role"/>
+                <input type="radio" name="role" />
                 <div class="collapse-title font-semibold">
                     <div class="flex justify-between items-center">
                         <? $users = $role->users ?>
@@ -46,12 +82,12 @@ $connected = $user !== null;
                 <div class="collapse-content text-sm">
                     <? if ($connected && $user->id != $_SESSION["user"]->id): ?>
                         <? if (!$user->hasRequestedRole($role->id)): ?>
-                        <form method="post" action="/role/<?= $role->id ?>/request" class="mb-4">
-                            <textarea class="textarea textarea-primary w-full h-30" name="message" placeholder="Message..." ></textarea>
-                            <button type="submit" class="btn btn-primary w-full mt-4">
-                                Request
-                            </button>
-                        </form>
+                            <form method="post" action="/role/<?= $role->id ?>/request" class="mb-4">
+                                <textarea class="textarea textarea-primary w-full h-30" name="message" placeholder="Message..."></textarea>
+                                <button type="submit" class="btn btn-primary w-full mt-4">
+                                    Request
+                                </button>
+                            </form>
                         <? endif ?>
                     <? endif ?>
                     <ul>

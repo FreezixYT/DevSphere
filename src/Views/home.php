@@ -16,7 +16,7 @@ use DevSphere\Models\Project;
                 <button class="btn btn-neutral join-item">Search</button>
             </div>
             <? if (isset($_SESSION["user"])): ?>
-                <a href="/project/create" class="btn btn-success">Create Project</a>
+                <a href="/project/create" class="btn btn-success ml-5">Create Project</a>
             <? endif ?>
         </form>
 

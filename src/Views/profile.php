@@ -57,8 +57,11 @@ function disableInput(User $user): string {
                     <? endif ?>
                 </div>
             </form>
-            <ul class="list bg-base-100 rounded-box shadow-md">
+            <ul class="list bg-base-100 rounded-box ">
                 <h2 class="card-title justify-center text-2xl">Projects</h2>
+                <?php if (count($projects) <= 0) : ?>
+                    <p>You have no projects at the moment.</p>
+               <?php endif ?>
                 <? foreach($projects as $project): ?>
                     <a href="/project/<?= $project->id ?>" class="list-row hover:bg-base-200">
                         <div><?= $project->name ?></div>
