@@ -60,9 +60,11 @@ function disableInput(User $user): string {
             <ul class="list bg-base-100 rounded-box shadow-md">
                 <h2 class="card-title justify-center text-2xl">Projects</h2>
                 <? foreach($projects as $project): ?>
-                    <a href="/project/<?= $project->id ?>" class="list-row hover:bg-base-200">
-                        <div><?= $project->name ?></div>
-                        <div>
+                    <li class="list-row hover:bg-base-200">
+                        <a href="/project/<?= $project->id ?>">
+                            <?= $project->name ?>
+                        </a>
+                        <a href="/project/<?= $project->id ?>">
                             <div class="flex gap-2">
                                 <? foreach ($project->tags as $i => $tag) :?>
                                     <div class="badge badge-sm badge-<?= $i % 3 == 0 ? "accent" : ($i % 2 == 0 ? "secondary" : "primary")  ?>">
@@ -71,8 +73,11 @@ function disableInput(User $user): string {
                                 <? endforeach ?>
                             </div>
                             <div class="text-xs uppercase font-semibold opacity-60"><?= $project->description ?></div>
-                        </div>
-                    </a>
+                        </a>
+                        <form method="post" action="/project/<?= $project->id ?>/delete" class="btn btn-error">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </li>
                 <? endforeach ?>
             </ul>
         </div>

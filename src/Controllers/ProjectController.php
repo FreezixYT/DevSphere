@@ -43,4 +43,11 @@ class ProjectController extends BaseController {
         }
         return $this->redirect("/");
     }
+
+    public function delete(Request $req, Response $resp, array $args) {
+        $project = Project::selectById((int)$args["id"]);
+        $project->delete();
+        $id = $_SESSION["user"]->id;
+        return $this->redirect("/user/$id");
+    }
 }
