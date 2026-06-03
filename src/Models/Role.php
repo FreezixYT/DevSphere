@@ -75,4 +75,8 @@ class Role extends BaseModel {
         $role->description = $description;
         return $role;
     }
+
+    public function delete() {
+        $this->deleteBy("id", $this->id);
+    }
 }

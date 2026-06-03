@@ -26,4 +26,13 @@ class RoleController extends BaseController {
         $request = RoleRequest::insert($user->id, $role->id, $schema->message);
         return $this->redirect("/project/$role->projectId");
     }
+
+    public function delete(Request $req, Response $resp, array $args): Response {
+        $id = (int)$args["id"];
+        $role = Role::selectById($id);
+        if ($role === false)
+            return $this->redirect("/");
+        $role->delete();
+        return $this->redirect("/project/$role->projectId");
+    }
 }

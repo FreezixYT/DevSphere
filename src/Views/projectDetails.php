@@ -89,18 +89,26 @@ $connected = $user !== null;
         <? foreach ($project->roles as $role) : ?>
             <div class="m-2 collapse collapse-arrow bg-base-100 border border-base-300 h-fit w-150 max-w-full">
                 <input type="radio" name="role" />
-                <div class="collapse-title font-semibold">
-                    <div class="flex justify-between items-center">
-                        <? $users = $role->users ?>
-                        <span><?= $role->name ?> ( x<?= count($users) ?> )</span>
+                <div class="collapse-title font-semibold flex justify-between">
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <? $users = $role->users ?>
+                            <span><?= $role->name ?> ( x<?= count($users) ?> )</span>
+                        </div>
+                        <ul>
+                            <? foreach ($role->tags as $i => $tag): ?>
+                                <li class="badge badge-soft badge-<?= $i % 3 == 0 ? "accent" : ($i % 2 == 0 ? "secondary" : "primary") ?>">
+                                    <?= $tag->name ?>
+                                </li>
+                            <? endforeach ?>
+                        </ul>
                     </div>
-                    <ul>
-                        <? foreach ($role->tags as $i => $tag): ?>
-                            <li class="badge badge-soft badge-<?= $i % 3 == 0 ? "accent" : ($i % 2 == 0 ? "secondary" : "primary") ?>">
-                                <?= $tag->name ?>
-                            </li>
-                        <? endforeach ?>
-                    </ul>
+                    <? if ($connected && $user->id == $project->userId): ?>
+                        <form class="z-1" method="post" action="/role/<?= $role->id ?>/delete">
+                            <button class="btn btn-error">Delete</button>
+                        </form>
+                    <? endif ?>
+
                 </div>
                 <div class="collapse-content text-sm">
                     <? if ($connected && $owner->id != $user->id): ?>

@@ -23,6 +23,7 @@ return function(App $app) {
 
 	$app->group("/role", function(RouteCollectorProxy $group) {
 		$group->post("/{id}/request", [RoleController::class, "request"])->add(Auth::class);
+		$group->post("/{id}/delete", [RoleController::class, "delete"])->add(Auth::class);
 	});
 	$app->post("/request/{userId}-{roleId}", [RoleRequestController::class, "updateStatus"]);
 
