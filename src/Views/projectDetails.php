@@ -103,7 +103,7 @@ $connected = $user !== null;
                     </ul>
                 </div>
                 <div class="collapse-content text-sm">
-                    <? if ($connected && $user->id != $_SESSION["user"]->id): ?>
+                    <? if ($connected && $owner->id != $user->id): ?>
                         <? if (!$user->hasRequestedRole($role->id)): ?>
                             <form method="post" action="/role/<?= $role->id ?>/request" class="mb-4">
                                 <textarea class="textarea textarea-primary w-full h-30" name="message" placeholder="Message..."></textarea>
